@@ -1,16 +1,10 @@
 import React, { useState } from "react"
 import { uploadUser } from '../redux/actions'
-import { connect } from 'react-redux'
+import { useDispatch } from 'react-redux'
 
-const mapDispatchToProps = dispatch => {
-  return {
-    uploadUser: (loginData) => dispatch(uploadUser(loginData))
-  }
-}
+export default function Form() {
+  const dispatch = useDispatch()
 
-export default connect(null, mapDispatchToProps)(Form)
-
-function Form(props) {
   const initialUserState = {
     username: '',
     pass: ''
@@ -25,7 +19,7 @@ function Form(props) {
   const handleSubmit = event => {
     event.preventDefault()
     const { username, pass } = user
-    props.uploadUser({ username, pass})
+    dispatch(uploadUser({ username, pass}))
     setUser(initialUserState)
   }
 
