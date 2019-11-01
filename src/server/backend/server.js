@@ -42,7 +42,7 @@ function querySingleValue (query, value){
                 }
             })
         }catch (err){
-            console.log(err)
+            return(err)
         }
     })
 }
@@ -52,10 +52,14 @@ app.post('/login', (req, res) => {
 
     querySingleValue(queryGetUser, username)
     .then(response => {
-        if (pass !== response[0].pass){
-            res.send('wrong password')
+        if (response.username === undefined){
+            res.send('wrong username')
         }else {
-            res.send('good boi')
+            if (pass !== response[0].pass){
+                res.send('wrong password')
+            }else {
+                res.send('good boi')
+            }
         }
     })
 })
