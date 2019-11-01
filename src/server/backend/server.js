@@ -31,18 +31,18 @@ app.post('/post', (req, res) => {
 
 const queryGetUser = 'SELECT * FROM login WHERE username = ?'
 
-function querySingleValue (query, value){
-    return new Promise ((resolve, reject) => {
-        try{
+function querySingleValue(query, value) {
+    return new Promise((resolve, reject) => {
+        try {
             pool.query(query, [value], (err, rows) => {
-                if (err){
+                if (err) {
                     return reject(err)
-                }else {
+                } else {
                     return resolve(rows)
                 }
             })
-        }catch (err){
-            return(err)
+        } catch (err) {
+            return (err)
         }
     })
 }
@@ -51,15 +51,16 @@ app.post('/login', (req, res) => {
     const { username, pass } = req.body
 
     querySingleValue(queryGetUser, username)
-    .then(response => {
-        if (response.username === undefined){
-            res.send('wrong username')
-        }else {
-            if (pass !== response[0].pass){
-                res.send('wrong password')
-            }else {
-                res.send('good boi')
+        .then(response => {
+            console.log(response)
+            try {
+                if (pass !== response[0].pass) {
+                    res.send('wrong password')
+                } else {
+                    res.send('good boi')
+                }
+            } catch (e) {
+                res.send('wrong username')
             }
-        }
-    })
+        })
 })
