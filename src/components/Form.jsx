@@ -1,9 +1,10 @@
-import React, { useState } from "react"
+import React, { useState, useRef } from "react"
 import { uploadUser } from '../redux/actions'
 import { useDispatch } from 'react-redux'
 
 export default function Form() {
   const dispatch = useDispatch()
+  const inputFocus = useRef(null)
 
   const initialUserState = {
     username: '',
@@ -21,6 +22,7 @@ export default function Form() {
     const { username, pass } = user
     dispatch(uploadUser({ username, pass}))
     setUser(initialUserState)
+    inputFocus.current.focus()
   }
 
   return (
@@ -34,7 +36,7 @@ export default function Form() {
             </span>
           </div>
           <input
-            autoFocus
+            ref={inputFocus}
             type="text"
             className="form-control"
             placeholder="username"
